@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using SassTray.Properties;
+using SassTray.Win32Native;
 
 namespace SassTray
 {
@@ -75,7 +76,6 @@ namespace SassTray
 
         private void WatcherError(object sender, Watcher.WatcherEventArgs e)
         {
-            var targetPath = (sender as Watcher).TargetPath;
             _notifyIcon.ShowBalloonTip(3000, "Sass", e.Detail, ToolTipIcon.Error);
         }
 
@@ -121,12 +121,16 @@ namespace SassTray
 
         private void MenuItemOnWatchFolderClick(object sender, EventArgs e)
         {
-            using (var folderBrowserDialog = new FolderBrowserDialog() { Description = "Select a target folder" })
+            var browseForFolder = new BrowseForFolder();
+            var resultPath = browseForFolder.SelectFolder("Select a target folder", "", IntPtr.Zero,
+                                                            BrowseForFolder.BIF_NEWDIALOGSTYLE |
+                                                            BrowseForFolder.BIF_SHAREABLE |
+                                                            BrowseForFolder.BIF_EDITBOX |
+                                                            BrowseForFolder.BIF_RETURNONLYFSDIRS
+                                                         );
+            if (!String.IsNullOrWhiteSpace(resultPath))
             {
-                if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
-                {
-                    StartWatch(folderBrowserDialog.SelectedPath);
-                }
+                StartWatch(resultPath);
             }
         }
         private void MenuItemOnStopClick(object sender, EventArgs e)
