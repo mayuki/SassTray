@@ -29,7 +29,7 @@ namespace SassTray
             textBoxLog.SelectionStart = textBoxLog.TextLength;
             textBoxLog.SelectedText = line + "\r\n";
 
-            if (textBoxLog.Lines.Length > 3)
+            if (textBoxLog.Lines.Length > 100)
             {
                 var pos = textBoxLog.Text.IndexOf("\n", 1);
                 if (pos > -1)
