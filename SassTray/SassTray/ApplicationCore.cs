@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading;
@@ -30,9 +32,12 @@ namespace SassTray
 
             // Notify Icon
             _notifyIcon.Text = "Sass";
-            _notifyIcon.Icon = new Form().Icon;
-            _notifyIcon.Visible = true;
             _notifyIcon.ContextMenu = _contextMenu;
+            _notifyIcon.Visible = true;
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SassTray.SassTray.ico"))
+            {
+                _notifyIcon.Icon = new Icon(stream);
+            }
 
             // Events
             Application.ApplicationExit += OnApplicationExit;

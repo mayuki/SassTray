@@ -28,6 +28,18 @@ namespace SassTray
             
             textBoxLog.SelectionStart = textBoxLog.TextLength;
             textBoxLog.SelectedText = line + "\r\n";
+
+            if (textBoxLog.Lines.Length > 3)
+            {
+                var pos = textBoxLog.Text.IndexOf("\n", 1);
+                if (pos > -1)
+                {
+                    textBoxLog.SelectionStart = 0;
+                    textBoxLog.SelectionLength = pos;
+                    textBoxLog.SelectedText = "";
+                    textBoxLog.SelectionStart = textBoxLog.TextLength;
+                }
+            }
         }
     }
 }
