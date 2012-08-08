@@ -11,7 +11,6 @@ namespace SassTray
     public class Server : MarshalByRefObject
     {
         private ApplicationCore _application;
-        private Server _server;
 
         public Server(ApplicationCore applicationCore)
         {

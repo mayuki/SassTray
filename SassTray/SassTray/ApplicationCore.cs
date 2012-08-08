@@ -38,6 +38,7 @@ namespace SassTray
             {
                 _notifyIcon.Icon = new Icon(stream);
             }
+            UpdateMenu();
 
             // Events
             Application.ApplicationExit += OnApplicationExit;
