@@ -14,6 +14,8 @@ namespace SassTray
         public LogViewForm()
         {
             InitializeComponent();
+
+            CreateHandle();
         }
 
         public void AppendLine(String line)
@@ -24,7 +26,8 @@ namespace SassTray
                 return;
             }
             
-            textBoxLog.Text += line + "\r\n";
+            textBoxLog.SelectionStart = textBoxLog.TextLength;
+            textBoxLog.SelectedText = line + "\r\n";
         }
     }
 }
