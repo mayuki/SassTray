@@ -37,7 +37,7 @@ namespace SassTray.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\ruby\\bin")]
         public string RubyBinDirPath {
             get {
                 return ((string)(this["RubyBinDirPath"]));

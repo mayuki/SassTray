@@ -6,7 +6,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="RubyBinDirPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">.\ruby\bin</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -31,8 +31,9 @@ namespace SassTray
         public void Start()
         {
             // start watch
-            var rubyExePath = Path.Combine(Settings.Default.RubyBinDirPath, "ruby.exe");
-            var sassPath = Path.Combine(Settings.Default.RubyBinDirPath, "sass");
+            var selfDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var rubyExePath = Path.GetFullPath(Path.Combine(selfDirectory, Settings.Default.RubyBinDirPath, "ruby.exe"));
+            var sassPath = Path.GetFullPath(Path.Combine(selfDirectory, Settings.Default.RubyBinDirPath, "sass"));
             var arguments = String.Join(" ", new[]
                                                  {
                                                      sassPath,
@@ -48,7 +49,7 @@ namespace SassTray
                 WindowStyle = ProcessWindowStyle.Hidden,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                WorkingDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
+                WorkingDirectory = selfDirectory
             };
             _process = Process.Start(processStartInfo);
             _process.EnableRaisingEvents = true;
