@@ -1,4 +1,4 @@
-﻿SassTray
+SassTray
 ========
 
 Screenshots
@@ -11,7 +11,7 @@ Screenshots
 
 Downloads
 ---------
-* [SassTray-20120808-bundle-ruby-1.9.3-p194-sass-3.1.20.zip](https://github.com/downloads/mayuki/SassTray/SassTray-20120808-bundle-ruby-1.9.3-p194-sass-3.1.20.zip)
+* [SassTray-20120812-bundle-ruby-1.9.3-p194-sass-3.2.0.zip](https://github.com/downloads/mayuki/SassTray/SassTray-20120812-bundle-ruby-1.9.3-p194-sass-3.2.0.zip)
 
 How to Use
 ----------
