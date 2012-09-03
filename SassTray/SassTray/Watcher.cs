@@ -6,6 +6,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using SassTray.Properties;
+using System.Xml.Serialization;
+using System.Windows.Forms;
 
 namespace SassTray
 {
@@ -30,20 +32,33 @@ namespace SassTray
 
         public void Start()
         {
+            var arguments = new List<String>();
+
+            // load config
+            var options = new String[0];
+            var outputPath = "";
+            if (File.Exists(Path.Combine(_path, "SassTray.config")))
+            {
+                SassTrayConfig config = SassTrayConfig.Load(Path.Combine(_path, "SassTray.config"));
+                options = config.Options ?? options;
+                if (!String.IsNullOrWhiteSpace(config.OutputPath))
+                {
+                    outputPath = Path.GetFullPath(Path.Combine(_path, config.OutputPath));
+                }
+            }
+
             // start watch
             var selfDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var rubyExePath = Path.GetFullPath(Path.Combine(selfDirectory, Settings.Default.RubyBinDirPath, "ruby.exe"));
             var sassPath = Path.GetFullPath(Path.Combine(selfDirectory, Settings.Default.RubyBinDirPath, "sass"));
-            var arguments = String.Join(" ", new[]
-                                                 {
-                                                     sassPath,
-                                                     "--watch",
-                                                     Settings.Default.SassOptions,
-                                                     _path.Replace('\\', '/')
-                                                 }.Where(x => !String.IsNullOrWhiteSpace(x))
-                                                 .Select(x => "\"" + x + "\""));
+            arguments.Add(sassPath);
+            arguments.Add("--watch");
+            arguments.Add(Settings.Default.SassOptions);
+            arguments.AddRange(options);
+            arguments.Add(_path.Replace('\\', '/') + (String.IsNullOrWhiteSpace(outputPath) ? "" : ":"+outputPath.Replace('\\', '/'))); // inputpath or inputpath:outputpath
 
-            var processStartInfo = new ProcessStartInfo(rubyExePath, arguments)
+            var argumentsString = String.Join(" ", arguments.Where(x => !String.IsNullOrWhiteSpace(x)).Select(x => "\"" + x + "\""));
+            var processStartInfo = new ProcessStartInfo(rubyExePath, argumentsString)
             {
                 CreateNoWindow = true,
                 WindowStyle = ProcessWindowStyle.Hidden,
@@ -65,7 +80,11 @@ namespace SassTray
         {
             if (_process == null) return;
 
-            _logViewForm.Close();
+            if (_logViewForm.InvokeRequired)
+                _logViewForm.Invoke((Action)(() => _logViewForm.Close()));
+            else
+                _logViewForm.Close();
+
             if (!_process.HasExited)
             {
                 _process.Kill();
@@ -95,8 +114,14 @@ namespace SassTray
 
             _logViewForm.AppendLine(e.Data);
 
-            if (e.Data.Contains("error"))
+            if (e.Data.ToLower().Contains("error"))
             {
+                // critical error ( on start )
+                if (e.Data.StartsWith("ERROR:"))
+                {
+                    MessageBox.Show(e.Data, "SassTray: " + _path, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
                 if (_lastError != e.Data)
                 {
                     _lastError = e.Data;
