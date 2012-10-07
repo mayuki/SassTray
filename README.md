@@ -11,13 +11,17 @@ Screenshots
 
 Downloads
 ---------
-* [SassTray-20120812-bundle-ruby-1.9.3-p194-sass-3.2.0.zip](https://github.com/downloads/mayuki/SassTray/SassTray-20120812-bundle-ruby-1.9.3-p194-sass-3.2.0.zip)
+* [SassTray-20121007-bundle-ruby-1.9.3-p194-sass-3.2.1-compass-0.12.2.zip](https://github.com/downloads/mayuki/SassTray/SassTray-20121007-bundle-ruby-1.9.3-p194-sass-3.2.1-compass-0.12.2.zip)
 
 How to Use
 ----------
 1. SassTray-*-bundle-ruby-*-sass-*.zip をダウンロードする
 2. Zipファイルを展開する
 3. SassTray フォルダにある SassTray.exe に監視したいフォルダをドロップする
+
+Config
+------
+監視するフォルダの中にSassTray.configというファイルを置くことで各種設定(出力先やSassコマンドのオプション)を変更できます。
 
 
 License
@@ -37,3 +41,7 @@ Copyrights
 [Ruby](http://www.ruby-lang.org/en/about/license.txt)
 
     Yukihiro Matsumoto <matz@netlab.jp>
+
+[Compass](http://compass-style.org/)
+
+    Compass Documentation by Christopher M. Eppstein is licensed under a Creative Commons Attribution-Noncommercial-Share Alike 3.0 United States License. Permissions beyond the scope of this license may be available at http://compass-style.org/copyright/.
